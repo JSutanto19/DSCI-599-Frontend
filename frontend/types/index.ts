@@ -9,7 +9,6 @@ export interface CustomButtonProps {
 export interface VisualizerProps {
     nodes: string[];
     edges: string[];
-    schedule: string[];
 }
 
 export interface FormProps {
