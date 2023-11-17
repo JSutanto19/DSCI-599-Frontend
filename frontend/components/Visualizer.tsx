@@ -70,10 +70,12 @@ const CytoscapeGraph = ({ nodes, edges }: VisualizerProps) => {
                     {
                         selector: 'node',
                         style: {
-                            'background-color': '#666',
+                            'background-color': '#446cfc',
                             'label': 'data(id)',
-                            'width': '10px',
-                            'height': '10px',
+                            'color': '#fff', // Text color
+                            'text-valign': 'center', // Vertical alignment
+                            'text-halign': 'center', // Horizontal alignment
+                            'font-size': '10px', // Font size
                         }
                     },
                     {
@@ -84,9 +86,15 @@ const CytoscapeGraph = ({ nodes, edges }: VisualizerProps) => {
                             'target-arrow-color': '#ccc',
                             'target-arrow-shape': 'triangle',
                             'curve-style': 'bezier',
-                            'label': 'data(weight)',
-                            'text-margin-y': -10,
-                            'text-margin-x': 10, // Adjust this value to move the label above the line
+                            'label': 'data(weight)', // Adjust this value for horizontal offset
+                            'color': '#000', // Label text color
+                            'font-size': '10px', // Adjust font size
+                            'text-background-opacity': 1, // Background opacity
+                            'text-background-color': '#fff', // Background color
+                            'text-background-padding': '3px', // Padding around text
+                            'text-border-opacity': 1, // Border opacity
+                            'text-border-width': 1, // Border width
+                            'text-border-color': '#000', // Border color
                         }
                     }
                 ],
@@ -102,7 +110,7 @@ const CytoscapeGraph = ({ nodes, edges }: VisualizerProps) => {
 
             });
         }
-    }, []);
+    }, [nodes, edges]);
 
     return (
         <div className='graph-container' id='visualize'>

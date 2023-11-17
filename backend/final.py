@@ -80,12 +80,9 @@ def build_graph(constraints, num_tasks, start_hour, end_hour):
     G = nx.DiGraph()
 
     G.add_node("x0")
-
-    G.add_edge("x0", "x1", weight=start_hour)
     total_hours = end_hour - start_hour
 
-    G.add_edge("x0", f"x{num_tasks}", weight=total_hours)
-
+    # Iterate through each constraint
     for xi, xj, duration in constraints:
         if isinstance(duration, range):
             l = min(duration)
@@ -93,9 +90,15 @@ def build_graph(constraints, num_tasks, start_hour, end_hour):
         else:
             l = u = duration
 
+        # Add forward edge
         G.add_edge(f"x{xi}", f"x{xj}", weight=u)
-        if not (f"x{xi}" == f"x{num_tasks}" and f"x{xj}" == "x0"):
+
+        # Add backward edge only if it's not the global constraint
+        if xi != 0 or xj != num_tasks:
             G.add_edge(f"x{xj}", f"x{xi}", weight=-l)
+
+    # Add a special edge for the global constraint
+    G.add_edge("x0", f"x{num_tasks}", weight=total_hours)
 
     return G
 
@@ -208,13 +211,11 @@ def visualize():
         print(constraint)
 
     G = build_graph(constraints, num_tasks, start_hour, end_hour)
-    # print(print_graph(G))
+    print(print_graph(G))
     edgeArr = []
 
     for edge in G.edges(data=True):
         edgeArr.append(f"{edge[0]} -> {edge[1]} (weight: {edge[2]['weight']})")
-
-    print(G.nodes())
 
     return jsonify(
         {

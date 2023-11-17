@@ -14,12 +14,14 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.17",
     "axios": "^1.6.0",
+    "cytoscape": "^3.27.0",
     "d3": "^7.8.5",
     "graphology": "^0.25.4",
     "graphology-layout-forceatlas2": "^0.10.1",
     "next": "14.0.0",
     "react": "^18",
     "react-dom": "^18",
+    "request": "^2.88.2",
     "sigma": "^3.0.0-alpha3"
   },
   "devDependencies": {
