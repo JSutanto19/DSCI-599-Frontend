@@ -17,6 +17,14 @@ const Form = ({ setGraph }: FormProps) => {
     const [dayStart, setDayStart] = useState('');
     const [dayEnd, setDayEnd] = useState('');
 
+    const handleScroll = () => {
+        const nextSection = document.getElementById("visualize");
+
+        if (nextSection) {
+            nextSection.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     const handleNumberOfTasksChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNumberOfTasks(event.target.value);
     };
@@ -43,12 +51,13 @@ const Form = ({ setGraph }: FormProps) => {
             end: dayEnd,
         };
         try {
-            const response = await axios.post('http://localhost:5001/visualize', updatedData, {
+            const response = await axios.post('http://localhost:5002/visualize', updatedData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            setGraph(response.data.nodes, response.data.edges, response.data.schedule)
+            setGraph(response.data.nodes, response.data.edges, response.data.earlyTimes, response.data.latestTimes, response.data.constraints, dayStart, dayEnd)
+            handleScroll()
         } catch (error) {
             console.error('There was an error!', error.response);
         }
@@ -58,7 +67,7 @@ const Form = ({ setGraph }: FormProps) => {
 
 
     return (
-        <div className='mt-12 padding-x padding-y bg-[#446cfc]' id='discover'>
+        <div className='mt-12 padding-x padding-y bg-[#446cfc] h-full' id='discover'>
             <div className='home__text-container'>
                 <h1 className='text-4xl font-extrabold text-left mt-3'>Create Your Schedule</h1>
                 <p>Answer the questions below to generate your optimal scehdule</p>

@@ -4,6 +4,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import Form from './Form'
 import Visualizer from './Visualizer'
+import Schedule from './TaskList'
 
 export {
     Hero,
@@ -11,5 +12,7 @@ export {
     Navbar,
     Footer,
     Form,
-    Visualizer
+    Visualizer,
+    Schedule,
+
 }

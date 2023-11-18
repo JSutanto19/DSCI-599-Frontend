@@ -6,7 +6,7 @@ import { link } from 'fs';
 
 const Footer = () => {
     return (
-        <footer className='flex flex-col text-black-100 mt-5 border-t border--100 bg-gray-100'>
+        <footer className='flex flex-col text-black-100 mt-0 border-t border--100 bg-gray-100'>
             <div className='flex justify-start gap-5 sm:px-16 px-6 py-10'>
                 {/* Logo and Description */}
                 <div className='flex flex-col justify-start items-start gap-6'>
@@ -42,7 +42,7 @@ const Footer = () => {
                     ))}
                 </div>
             </div>
-            <div className='flex justify-between items-center flex-wrap mt-10 border-t border-black-100 sm:px-16 px-6 py-10'>
+            <div className='flex justify-between items-center flex-wrap mt-0 border-t border-black-100 sm:px-16 px-6 py-10'>
                 <p>@2023 CSP Scheduler. All rights reserved</p>
             </div>
         </footer>
