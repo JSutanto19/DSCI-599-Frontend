@@ -22,7 +22,7 @@ type GraphElement = GraphNode | GraphEdge;
 
 
 // Define the component
-const CytoscapeGraph = ({ nodes, edges }: VisualizerProps) => {
+const CytoscapeGraph = ({ nodes, edges, shortestPathEarliest, shortestPathLatest }: VisualizerProps) => {
     const cyContainerRef = useRef<HTMLDivElement>(null);
     const [graphElem, setGraphElem] = useState<GraphElement[]>([]);
 
@@ -54,7 +54,8 @@ const CytoscapeGraph = ({ nodes, edges }: VisualizerProps) => {
 
 
         let mergedArr = [...objectArray, ...edgeArray]
-        console.log(mergedArr)
+        console.log('here', shortestPathEarliest)
+        console.log('here2', shortestPathLatest)
         return mergedArr
 
     }
@@ -110,12 +111,25 @@ const CytoscapeGraph = ({ nodes, edges }: VisualizerProps) => {
 
             });
         }
-    }, [nodes, edges]);
+    }, [nodes, edges, shortestPathEarliest, shortestPathLatest]);
 
     return (
-        <div className='graph-container' id='visualize'>
-            <h1 className='text-4xl font-extrabold text-left mt-6'>{'Your CSP Graph'}</h1>
-            <div ref={cyContainerRef} style={{ width: 800, height: 600 }} />
+        <div className='flex flex-row' id='visualize'>
+            <div className='graph-container'>
+                <h1 className='text-4xl font-extrabold text-left mt-6'>{'Your CSP Graph'}</h1>
+                <div ref={cyContainerRef} style={{ width: 800, height: 600 }} />
+            </div>
+            <div className='sp-container'>
+                <h1 className='text-4xl font-extrabold text-left mt-6'>{'Shortest Path Computation for Earliest Times'}</h1>
+                <div className='ml-5 mt-2'>
+                    {shortestPathEarliest.map((x) => { return <h4 className='text-xl text-left mt-2'>{x}</h4> })}
+                </div>
+                <h1 className='text-4xl font-extrabold text-left mt-8'>{'Shortest Path Computation for Latest Times'}</h1>
+                <div className='ml-5 mt-2'>
+                    {shortestPathLatest.map((x) => { return <h4 className='text-xl text-left mt-2'>{x}</h4> })}
+                </div>
+
+            </div>
         </div>
     );
 };

@@ -10,7 +10,6 @@ import { FormProps } from '../types/index'
 
 const Form = ({ setGraph }: FormProps) => {
 
-
     // Create state variables for each input field
     const [numberOfTasks, setNumberOfTasks] = useState('');
     const [taskDurations, setTaskDuration] = useState<string[]>([]);
@@ -56,7 +55,7 @@ const Form = ({ setGraph }: FormProps) => {
                     'Content-Type': 'application/json'
                 }
             });
-            setGraph(response.data.nodes, response.data.edges, response.data.earlyTimes, response.data.latestTimes, response.data.constraints, dayStart, dayEnd)
+            setGraph(response.data.nodes, response.data.edges, response.data.earlyTimes, response.data.latestTimes, response.data.constraints, dayStart, dayEnd, response.data.shortestPathEarliest, response.data.shortestPathLatest)
             handleScroll()
         } catch (error) {
             console.error('There was an error!', error.response);
@@ -100,7 +99,7 @@ const Form = ({ setGraph }: FormProps) => {
                         id="tasks-duration"
                         multiline
                         rows={4}
-                        maxrows={20}
+                        maxRows={20}
                         onChange={handleTaskDurationChange}
                         defaultValue="1 hour"
                     />

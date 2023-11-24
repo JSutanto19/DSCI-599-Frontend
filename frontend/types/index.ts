@@ -9,10 +9,12 @@ export interface CustomButtonProps {
 export interface VisualizerProps {
     nodes: string[];
     edges: string[];
+    shortestPathEarliest: string[];
+    shortestPathLatest: string[];
 }
 
 export interface FormProps {
-    setGraph: (nodes: string[], edges: string[], early: string[], late: string[], constraints: any[][], start: string, end: string) => void;
+    setGraph: (nodes: string[], edges: string[], early: string[], late: string[], constraints: any[][], start: string, end: string, shortestEarly: string[], shortestLate: string[]) => void;
 }
 
 export interface ScheduleProps {

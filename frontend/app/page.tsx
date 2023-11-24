@@ -17,15 +17,16 @@ export default function Home() {
   const [showGraph, setShow] = useState<boolean>(false);
   const [start_hour1, setStart] = useState<string>('');
   const [end_hour1, setEnd] = useState<string>('');
+  const [shortestEarly, setShortestEarly] = useState<string[]>([]);
+  const [shortestLate, setShortestLatest] = useState<string[]>([]);
 
   useEffect(() => {
     console.log('update happened');
     console.log(nodes)
-  }, [earlyTimes, latestTimes, nodes, edges]);
+  }, [earlyTimes, latestTimes, nodes, edges, shortestEarly, shortestLate]);
 
 
-  const setGraph = (n: string[], e: string[], early: string[], late: string[], constraints: any[][], start: string, end: string) => {
-    console.log('setgraph: ', end)
+  const setGraph = (n: string[], e: string[], early: string[], late: string[], constraints: any[][], start: string, end: string, shortestEarly: string[], shortestLate: string[]) => {
     setNodes(n)
     setEdges(e)
     setEarly(early)
@@ -34,6 +35,8 @@ export default function Home() {
     setShow(true)
     setStart(start)
     setEnd(end)
+    setShortestEarly(shortestEarly)
+    setShortestLatest(shortestLate)
   };
 
   const handleUpdate = async (i: number, prev_start: string, start_hour: string, end_hour: string) => {
@@ -67,7 +70,7 @@ export default function Home() {
     <main className="overlow-hidden">
       <Hero />
       <Form setGraph={setGraph} />
-      {showGraph && <Visualizer nodes={nodes} edges={edges} />}
+      {showGraph && <Visualizer nodes={nodes} edges={edges} shortestPathEarliest={shortestEarly} shortestPathLatest={shortestLate} />}
       {showGraph && <Schedule earlyTimes={earlyTimes} latestTimes={latestTimes} handleUpdate={handleUpdate} />}
     </main>
   )
