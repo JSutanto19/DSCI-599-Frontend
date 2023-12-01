@@ -116,7 +116,7 @@ const CytoscapeGraph = ({ nodes, edges, shortestPathEarliest, shortestPathLatest
     return (
         <div className='flex flex-row' id='visualize'>
             <div className='graph-container'>
-                <h1 className='text-4xl font-extrabold text-left mt-6'>{'Your CSP Graph'}</h1>
+                <h1 className='text-4xl font-extrabold text-left mt-6'>{'Your Graph'}</h1>
                 <div ref={cyContainerRef} style={{ width: 800, height: 600 }} />
             </div>
             <div className='sp-container'>
