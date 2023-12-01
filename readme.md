@@ -36,6 +36,11 @@ The server will start on `http://0.0.0.0:5002`. Ensure that the front-end servic
 
 ### Running the Frontend
 To start the frontend application:
+
+```bash
+npm install
+```
+
 ```bash
 npm run dev
 ```
@@ -59,10 +64,3 @@ Users interact with the system via a front-end interface, which communicates wit
 
 ## Rescheduling Logic
 The system allows for dynamic rescheduling. When a user changes the start time of a task, the application recalculates constraints relative to this new start time and applies the Bellman-Ford algorithm to update the schedule.
-
-## Limitations & Assumptions
-- Assumes no negative cycles in the task graph, as the Bellman-Ford algorithm cannot compute paths in such cases.
-- Designed to work in tandem with a specific front-end setup.
-
-## Conclusion
-This Flask-based task scheduling application provides a robust and dynamic tool for visualizing and adjusting schedules, backed by graph theory and algorithmic computation. It facilitates efficient time management and adaptability in response to changing task priorities and durations.
