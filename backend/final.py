@@ -80,22 +80,27 @@ def build_graph(constraints, num_tasks, start_hour, end_hour):
     G = nx.DiGraph()
 
     G.add_node("x0")
-
-    G.add_edge("x0", "x1", weight=start_hour)
     total_hours = end_hour - start_hour
-
-    G.add_edge("x0", f"x{num_tasks}", weight=total_hours)
-
+    print("converted ", constraints)
+    # Iterate through each constraint
     for xi, xj, duration in constraints:
+        # print(f"riten is a python guy{min(duration)}")
         if isinstance(duration, range):
             l = min(duration)
             u = max(duration)
         else:
             l = u = duration
 
+        # Add forward edge
         G.add_edge(f"x{xi}", f"x{xj}", weight=u)
-        if not (f"x{xi}" == f"x{num_tasks}" and f"x{xj}" == "x0"):
+
+        # Add backward edge only if it's not the global constraint
+        if xi != 0 or xj != num_tasks:
+            print(l)
             G.add_edge(f"x{xj}", f"x{xi}", weight=-l)
+
+    # Add a special edge for the global constraint
+    G.add_edge("x0", f"x{num_tasks}", weight=total_hours)
 
     return G
 
@@ -295,119 +300,3 @@ def visualize():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5002)
-
-
-# code for schedule
-#     # Ask if the user wants to change anything
-# while True:
-#     change_schedule = (
-#         input("Would you like to change any task in the schedule? (yes/no): ")
-#         .strip()
-#         .lower()
-#     )
-
-#     if change_schedule == "no":
-#         break  # Exit the loop if the user doesn't want to change the schedule
-
-#     print("\nAvailable time ranges for each task:")
-#     for i in range(1, num_tasks + 1):
-#         earliest_time = time_conversion(-distances_earliest[f"x{i}"], start_hour)
-#         latest_time = time_conversion(distances_latest[f"x{i}"], start_hour)
-#         print(f"Task {i}: {earliest_time} - {latest_time}")
-#     task_to_change = int(
-#         input("Which task number do you want to change? (Enter the task number): ")
-#     )
-
-#     # Update the last updated task
-#     last_updated_task = task_to_change
-
-#     # Ask for a new time within this range
-#     new_time_str = input(
-#         f"Enter the new start time for Task {task_to_change} (within the range above): "
-#     )
-#     new_time_hour = convert_to_24_hour_format(new_time_str)
-#     constraints = adjust_constraints(
-#         constraints, task_to_change, new_time_str, num_tasks, start_hour, end_hour
-#     )
-#     updated_task_index = task_to_change
-#     # Rebuild the graph with updated constraints for the uncompleted tasks
-
-#     G_updated = build_graph(
-#         constraints,  # Only use constraints from updated tasks onwards
-#         num_tasks - updated_task_index,  # Adjust the number of tasks accordingly
-#         new_time_hour,
-#         end_hour,
-#     )
-
-#     print(
-#         "\nRecalculating times for subsequent tasks starting from the updated task..."
-#     )
-
-#     result_earliest_updated = bellman_ford(G_updated.reverse(copy=True), "x0")
-
-#     result_latest_updated = bellman_ford(G_updated, "x0")
-
-#     if result_earliest_updated == (None, None):
-#         print(
-#             "Negative cycle detected for earliest start times. No solution exists."
-#         )
-#         return 0
-#     else:
-#         distances_earliest_updated, _ = result_earliest_updated
-
-#     print("\nCalculating latest start times...")
-#     if result_latest_updated == (None, None):
-#         print("Negative cycle detected for latest start times. No solution exists.")
-#         return 0
-#     else:
-#         distances_latest_updated, _ = result_latest_updated
-
-#     print("SHORTEST PATH COMPUTATIONS:")
-#     print("\nTotal Duration of Shortest Paths for Earliest Start Times:")
-#     for node in sorted(
-#         distances_earliest_updated.keys(), key=lambda x: (len(x), x)
-#     ):
-#         if node == "x0":
-#             continue
-#         total_duration_earliest_updated = -distances_earliest_updated[
-#             node
-#         ]  # Use negative value for earliest start times
-#         print(
-#             f"Total duration to {node} (Earliest): {total_duration_earliest_updated} hour(s)"
-#         )
-
-#     print("\nTotal Duration of Shortest Paths for Latest Start Times:")
-#     for node in sorted(distances_latest_updated.keys(), key=lambda x: (len(x), x)):
-#         if node == "x0":
-#             continue
-#         total_duration_latest_updated = distances_latest_updated[node]
-#         print(
-#             f"Total duration to {node} (Latest): {total_duration_latest_updated} hour(s)"
-#         )
-
-#     # Print Latest Start Times
-#     print("\nLatest start times:")
-#     for node in sorted(distances_latest_updated.keys(), key=lambda x: (len(x), x)):
-#         if node == "x0":
-#             continue
-#         print(
-#             f"{node}: {time_conversion(distances_latest_updated[node], new_time_hour)}"
-#         )
-
-#     # Print Earliest Start Times
-#     print("\nEarliest start times:")
-#     for node in sorted(
-#         distances_earliest_updated.keys(), key=lambda x: (len(x), x)
-#     ):
-#         if node == "x0":
-#             continue
-#         print(
-#             f"{node}: {time_conversion(-distances_earliest_updated[node], new_time_hour)}"
-#         )
-
-#     start_hour = new_time_hour
-
-#     distances_earliest = distances_earliest_updated
-#     distances_latest = distances_latest_updated
-
-#     num_tasks = num_tasks - task_to_change
